@@ -7,8 +7,6 @@
 
 #define CSB0			LATA0
 #define T_CSB0			TRISA0
-#define CSB1			LATA1
-#define T_CSB1			TRISA1
 #define CSB2			LATA2
 #define T_CSB2			TRISA2
 #define CSB3			LATA3
@@ -22,8 +20,6 @@
 
 #define assertCSB0()	CSB0 = 0; T_CSB0 = 0;
 #define deassertCSB0()	CSB0 = 1; T_CSB0 = 0;
-#define assertCSB1()	CSB1 = 0; T_CSB1 = 0;
-#define deassertCSB1()	CSB1 = 1; T_CSB1 = 0;
 #define assertCSB2()	CSB2 = 0; T_CSB2 = 0; 
 #define deassertCSB2()	CSB2 = 1; T_CSB2 = 0; 
 #define assertCSB3()	CSB3 = 0; T_CSB3 = 0; 

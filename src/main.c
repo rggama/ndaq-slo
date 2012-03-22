@@ -43,7 +43,6 @@ void main(void)
 	BYTE bdata;
 
 	deassertCSB0();
-	deassertCSB1();
 	deassertCSB2();
 	deassertCSB3();
 	deassertCSB4();
@@ -60,35 +59,11 @@ void main(void)
 	
 	resetCLKD();
 	resetADC();
-
-	//Configuring AD9510 PLL Loop.
-	//In Fixed Divider mode (for N feedback divider), we have:
-	//Fvco = Fref * N/R
-	//Thus, N/R = 2 for Fvco = 125 MHz and Fref = 62.5 MHz.
-	//Where N is the feedback divider and R is the reference divider.
-	//Let N = 2 and R = 1. See below.
 	
-	//R divider (Reference divider)
-	//R divider is set to '1'. 
-	writeCLKD(0x0C, 0x01);
-	writeCLKD(0x0B, 0x00);
-
-	//N divider (Vco feedback divider)
-	//N divider: N(P, A, B).
-	//N = P*B+A.
-	//P is a prescaler (3 bits).
-	//A and B are counters, 6 and 3 bits respectively.
-	//Two modes are possible: FD (fixedd divider) and DM (dual modulus).
-	//In FD mode, A is not used.
-	
-	//Set P prescaler to 2 and set B counter to 1 (bypass). Also set PLL to Normal Operation.
-	writeCLKD(0x0A, 0x44);	
-
-	writeCLKD(0x07, 0x04);	//Enable Loss of Reference (LOR) function.
-
-	//writeCLKD(0x08, 0x37);	//Set Normal Operation mode to CP and STATUS Pin to 'Loss of Lock or Loss of Ref (active high)'.
-	writeCLKD(0x08, 0x35);	//Set Pump-up mode to CP.
-	writeCLKD(0x09, 0x40);	//Set CP current to 3.0 mA.
+	//writeCLKD(0x08, 0x01);	//Set Pump-up mode to CP.
+	//writeCLKD(0x08, 0x03);	//Set Normal Operation mode to CP.
+	//writeCLKD(0x09, 0x40);	//Set CP current to 3.0 mA.
+	//writeCLKD(0x0A, 0x00);	//Set PLL to Normal Operation.
 	
 	writeCLKD(0x45, 0x02);	//Set CLK2 as Distribution input, power down CLK1 input. See doc.
 
@@ -112,25 +87,25 @@ void main(void)
 	/*********************************/
 
 	//for ADC12
-	writeADC(1, 0x08, 0x00);	//0x00: Normal op. - 0x01: Full Power Down.
-	writeADC(1, 0x14, 0xC1);	//LVDS and two's comlement.
-	writeADC(1, 0x0D, 0x00);	//Self Test - 0x00: Normal op. - 0x07: one/zero word toggle.
-	writeADC(1, 0xFF, 0x01);	//Master Register latch enable - self resetable.
+	writeADC(2, 0x08, 0x01);	//0x00: Normal op. - 0x01: Full Power Down.
+	writeADC(2, 0x14, 0xC1);	//LVDS and two's comlement.
+	writeADC(2, 0x0D, 0x00);	//Self Test - 0x00: Normal op. - 0x07: one/zero word toggle.
+	writeADC(2, 0xFF, 0x01);	//Master Register latch enable - self resetable.
 
 	//for ADC34	
-	writeADC(2, 0x08, 0x00);	
-	writeADC(2, 0x14, 0xC1);	
-	writeADC(2, 0xFF, 0x01);	 
+	writeADC(3, 0x08, 0x01);	
+	writeADC(3, 0x14, 0xC1);	
+	writeADC(3, 0xFF, 0x01);	 
 	
 	//for ADC56
-	writeADC(4, 0x08, 0x00);	
+	writeADC(4, 0x08, 0x01);	
 	writeADC(4, 0x14, 0xC1);	
 	writeADC(4, 0xFF, 0x01);	
 
 	//for ADC78
-	writeADC(3, 0x08, 0x00); //0x01	
-	writeADC(3, 0x14, 0xC1);	
-	writeADC(3, 0xFF, 0x01);	
+	writeADC(5, 0x08, 0x01); //0x01	
+	writeADC(5, 0x14, 0xC1);	
+	writeADC(5, 0xFF, 0x01);	
 	
 
 	data.wdata = 512; //~313mV
@@ -143,6 +118,7 @@ void main(void)
 	writeDAC(5, 6, data);
 	writeDAC(5, 7, data);
 
+	/*
 	for(;;)
 	{
 		//test = readCLKD(0x45);
@@ -151,21 +127,21 @@ void main(void)
 		//bdata._byte = 0xAA;
 		//writeHSPI(bdata);
 
-		for(i=0;i<10000;i++);
+		//for(i=0;i<10000;i++);
 
 		
-		//data.wdata = sweep;	
-		//writeDAC(5, 0, data);
-		//writeDAC(6, 0, data);
-		//sweep++;
-		//if (sweep>4095) sweep = 0;
+		data.wdata = sweep;	
+		writeDAC(5, 0, data);
+		writeDAC(6, 0, data);
+		sweep++;
+		if (sweep>4095) sweep = 0;
 		
 
 		//rxCAN();
 	}
-	
+	*/
 
-	//for(;;);	
+	for(;;);	
 
 }
 
