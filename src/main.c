@@ -86,9 +86,14 @@ void main(void)
 
 	writeCLKD(0x07, 0x04);	//Enable Loss of Reference (LOR) function.
 
+	writeCLKD(0x08, 0x0F);	//Set Normal Operation mode to CP and STATUS Pin to 'Loss of Lock (active high)'.
+	//writeCLKD(0x08, 0x0D);	//Set Pump-up mode to CP and STATUS Pin to 'Loss of Lock (active high)'.
 	//writeCLKD(0x08, 0x37);	//Set Normal Operation mode to CP and STATUS Pin to 'Loss of Lock or Loss of Ref (active high)'.
-	writeCLKD(0x08, 0x35);	//Set Pump-up mode to CP.
-	writeCLKD(0x09, 0x40);	//Set CP current to 3.0 mA.
+	//writeCLKD(0x08, 0x2B);	//Set Normal Operation to CP and STATUS Pin to 'Loss of Ref (active high)'.
+	//writeCLKD(0x08, 0x35);	//Set Pump-up mode to CP and STATUS Pin to 'Loss of Lock or Loss of Ref (active high)'.
+	
+	//writeCLKD(0x09, 0x40);	//Set CP current to 3.0 mA.
+	writeCLKD(0x09, 0x00);	//Set CP current to 0.6 mA.
 	
 	writeCLKD(0x45, 0x02);	//Set CLK2 as Distribution input, power down CLK1 input. See doc.
 
